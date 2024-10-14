@@ -1,0 +1,144 @@
+openapi: 3.1.0
+info:
+  title: API de Pesquisas
+  version: 1.0.0
+  description: API para gestão de pesquisas
+
+servers:
+  - url: http://localhost:5000
+    description: Servidor local de desenvolvimento
+
+paths:
+  /survey:
+    post:
+      summary: Cria uma nova pesquisa
+      tags:
+        - Pesquisas
+      requestBody:
+        description: Dados da nova pesquisa
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewSurvey'
+      responses:
+        '201':
+          description: Pesquisa criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Survey'
+
+  /survey/{survey_id}/answer:
+    get:
+      summary: Lista todas as respostas da pesquisa
+      tags:
+        - Pesquisas
+      parameters:
+        - in: query
+          name: sortStars
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+          description: Ordenação dos resultados, 'asc' para ascendente e 'desc' para descendente
+        - in: path
+          name: survey_id
+          required: true
+          schema:
+            type: string
+          description: ID da Pesquisa
+      responses:
+        '200':
+          description: Lista de respostas da pesquisa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SurveyAnswer'
+
+    post:
+      summary: Responde a pesquisa
+      tags:
+        - Pesquisas
+      parameters:
+        - in: path
+          name: survey_id
+          required: true
+          schema:
+            type: string
+          description: ID da Pesquisa
+      requestBody:
+        description: Resposta da pesquisa
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SurveyAnswer'
+      responses:
+        '200':
+          description: Pesquisa respondida com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SurveyAnswer'
+
+  /survey/{survey_id}:
+    patch:
+      summary: Atualiza a pesquisa de um curso
+      tags:
+        - Pesquisas
+      parameters:
+        - in: path
+          name: survey_id
+          required: true
+          schema:
+            type: string
+          description: ID da Pesquisa
+      responses:
+        '200':
+          description: Pesquisa atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Survey'
+
+components:
+  schemas:
+    Survey:
+      type: object
+      properties:
+        id:
+          type: string
+        target:
+          type: string
+        questions:
+          type: array
+          items:
+            type: string
+
+    NewSurvey:
+      type: object
+      properties:
+        target:
+          type: string
+        questions:
+          type: array
+          items:
+            type: string
+
+    SurveyAnswer:
+      type: object
+      properties:
+        email:
+          type: string
+        rate:
+          type: number
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              question:
+                type: string
+              answer:
+                type: string

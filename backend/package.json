@@ -1,0 +1,30 @@
+{
+  "name": "satisfaction-survey-api",
+  "description": "",
+  "keywords": [
+    "survey"
+  ],
+  "author": "CarvalhoCortes",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "satisfaction-survey-api"
+  },
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc-watch --onSuccess \"node build/server.js\""
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "ts-node": "^10.9.2",
+    "tsc-watch": "^6.2.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  }
+}
