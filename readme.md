@@ -2,7 +2,7 @@
 
 **Satisfaction Survey** é uma API que permite a criar pesquisas de satisfação customizadas.
 
-### Problema que Resolve:
+### Descrição:
 
 Esta API faz o gerenciamento de pesquisas de satisfação do cliente para um varejista online que está experimentando um crescimento rápido e diversificação de sua base de clientes. A variedade crescente de clientes exige pesquisas personalizadas para grupos demográficos específicos (Geeks e Nerds, Minimalistas, Atletas, etc.). A API aborda isso permitindo:
 
@@ -19,7 +19,7 @@ Esta API faz o gerenciamento de pesquisas de satisfação do cliente para um var
 - **Gerenciamento de Containers:** Docker
 - **Testes:** mocharc
 
-### Como Executar:
+### Instalação:
 
 1. **Clonar o Repositório:**
 
