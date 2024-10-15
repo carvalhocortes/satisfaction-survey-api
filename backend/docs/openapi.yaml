@@ -21,6 +21,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/NewSurvey'
+            examples:
+              Success:
+                value:
+                  target: "Clientes"
+                  questions:
+                    - "Qual é o seu nível de satisfação?"
+                    - "Recomendaria nossos serviços?"
       responses:
         '201':
           description: Pesquisa criada com sucesso
@@ -28,6 +35,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Survey'
+              examples:
+                Success:
+                  value:
+                    id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
+                    target: "Clientes"
+                    questions:
+                      - "Qual é o seu nível de satisfação?"
+                      - "Recomendaria nossos serviços?"
+        '400':
+          description: Erro de solicitação inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                erroExemplo:
+                  value:
+                    httpCode: "400"
+                    msg: [ "body.target is a required field" ]
 
   /survey/{survey_id}/answer:
     get:
@@ -54,7 +80,35 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SurveyAnswer'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SurveyAnswer'
+              examples:
+                Success:
+                  value:
+                    - id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
+                      email: "exemplo1@dominio.com"
+                      rate: 4.5
+                      answers:
+                        - question: "Qual é o seu nível de satisfação?"
+                          answer: "Muito satisfeito"
+                    - id: "4bfceef9-9e43-4d67-9b7b-6f53e7f18508"
+                      email: "exemplo2@dominio.com"
+                      rate: 4.0
+                      answers:
+                        - question: "Qual é o seu nível de satisfação?"
+                          answer: "Satisfeito"
+        '404':
+          description: Pesquisa não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                erroExemplo:
+                  value:
+                    httpCode: "404"
+                    msg: "A Pesquisa não existe"
 
     post:
       summary: Responde a pesquisa
@@ -74,6 +128,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SurveyAnswer'
+            examples:
+              Success:
+                value:
+                  email: "respondente@dominio.com"
+                  rate: 5
+                  answers:
+                    - question: "Qual é o seu nível de satisfação?"
+                      answer: "Muito satisfeito"
       responses:
         '200':
           description: Pesquisa respondida com sucesso
@@ -81,6 +143,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SurveyAnswer'
+              examples:
+                Success:
+                  value:
+                    id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
+                    email: "respondente@dominio.com"
+                    rate: 5
+                    answers:
+                      - question: "Qual é o seu nível de satisfação?"
+                        answer: "Muito satisfeito"
+        '404':
+          description: Pesquisa não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                erroExemplo:
+                  value:
+                    httpCode: "404"
+                    msg: "Pesquisa não encontrada."
 
   /survey/{survey_id}:
     patch:
@@ -94,13 +176,44 @@ paths:
           schema:
             type: string
           description: ID da Pesquisa
+      requestBody:
+        description: Dados atualizados da pesquisa
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewSurvey'
+            examples:
+              Success:
+                value:
+                  target: "Funcionários"
+                  questions:
+                    - "Como você avalia o ambiente de trabalho?"
       responses:
         '200':
-          description: Pesquisa atualizado com sucesso
+          description: Pesquisa atualizada com sucesso
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Survey'
+              examples:
+                Success:
+                  value:
+                    id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
+                    target: "Funcionários"
+                    questions:
+                      - "Como você avalia o ambiente de trabalho?"
+        '404':
+          description: Pesquisa não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                erroExemplo:
+                  value:
+                    httpCode: "404"
+                    msg: "Pesquisa não encontrada."
 
 components:
   schemas:
@@ -129,6 +242,8 @@ components:
     SurveyAnswer:
       type: object
       properties:
+        id:
+          type: string
         email:
           type: string
         rate:
@@ -136,9 +251,24 @@ components:
         answers:
           type: array
           items:
-            type: object
-            properties:
-              question:
-                type: string
-              answer:
+            $ref: '#/components/schemas/Answer'
+
+    Answer:
+      type: object
+      properties:
+        question:
+          type: string
+        answer:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        httpCode:
+          type: string
+        msg:
+          oneOf:
+            - type: string
+            - type: array
+              items:
                 type: string
