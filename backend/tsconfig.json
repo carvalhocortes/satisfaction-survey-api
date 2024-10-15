@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "lib": [
-      "ES2020"
-    ],
+    "lib": ["ES2020"],
     "moduleResolution": "node",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "removeComments": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
@@ -15,22 +13,16 @@
     "sourceMap": true,
     "target": "ES2020",
     "outDir": "build",
-    "rootDir": ".",
+    "rootDir": "./",
     "preserveConstEnums": true,
     "strictNullChecks": true,
     "allowJs": true,
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
     "noEmitOnError": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "resolveJsonModule": true,
+    "typeRoots": ["node_modules/@types"]
   },
-  "include": [
-    "src/**/*.ts",
-    "server.ts"
-  ],
-  "exclude": [
-    "node_modules/**/*"
-  ]
+  "include": ["src/**/*.ts", "test/**/*.ts", "server.ts"],
+  "exclude": ["node_modules/**/*", ".serverless/**/*", ".vscode/**/*"]
 }

@@ -14,14 +14,19 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start": "tsc-watch --onSuccess \"node build/server.js\""
+    "start": "tsc-watch --onSuccess \"node build/server.js\"",
+    "test": "mocha \"test/mainTest.ts\""
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "express": "^4.21.1"
+    "express": "^4.19.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0",
+    "@types/express": "^4.17.21",
+    "@types/mocha": "^10.0.9",
+    "mocha": "^10.7.3",
+    "should": "^13.2.3",
     "ts-node": "^10.9.2",
     "tsc-watch": "^6.2.0",
     "tsx": "^4.19.1",
