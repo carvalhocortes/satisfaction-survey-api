@@ -5,6 +5,10 @@ services:
     image: mongo:latest
     ports:
       - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: rootUser
+      MONGO_INITDB_ROOT_PASSWORD: rootPassword
+      MONGO_INITDB_DATABASE: surveyDB
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
