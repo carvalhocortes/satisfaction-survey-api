@@ -30,7 +30,6 @@ export default class UserController {
   listAnswers = (req: Request): Promise<SurveyAnswer[]> => {
     const { id } = req.params
     const sortStars = req.query?.sortStars as EnumOrder
-    console.log({ id, sortStars })
     return this.surveyService.listAnswers(id, sortStars)
   }
 

@@ -1,19 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import * as Yup from 'yup';
-import { pt_BR } from '../config/locale';
 import errorMessages from '../common/errorMessages';
-
-Yup.setLocale(pt_BR)
 
 export default class ValidationMiddleware {
 
   constructor(private schema: Yup.ObjectSchema<any>) { }
 
   validate = (req: Request, res: Response, next: NextFunction) => {
-    console.log('body', req.body);
-    console.log('params', req.params);
-    console.log('query', req.query);
-
     this.schema
       .validate(req, { abortEarly: false })
       .then(() => {
