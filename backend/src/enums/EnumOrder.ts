@@ -1,7 +1,7 @@
 
 enum EnumOrder {
-  asc = 'asc',
-  desc = 'desc'
+  asc = 'ASC',
+  desc = 'DESC'
 };
 
 export default EnumOrder;

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["ES2020"],
+    "lib": ["ES2022"],
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "module": "commonjs",
     "sourceMap": true,
-    "target": "ES2020",
+    "target": "ES2022",
     "outDir": "build",
     "rootDir": "./",
     "preserveConstEnums": true,
@@ -24,5 +24,5 @@
     "typeRoots": ["node_modules/@types"]
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "server.ts"],
-  "exclude": ["node_modules/**/*", ".serverless/**/*", ".vscode/**/*"]
+  "exclude": ["node_modules/**/*", ".vscode/**/*"]
 }
