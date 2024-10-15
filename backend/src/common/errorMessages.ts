@@ -11,7 +11,7 @@ export default {
   }),
   notRegistered: (subject: string): Error => ({
     httpCode: 404,
-    msg: `O ${subject} não existe`
+    msg: `A ${subject} não existe`
   })
 }
 
