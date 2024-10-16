@@ -14,13 +14,14 @@ export default class UserController {
 
   create = (req: Request): Promise<SurveyEntity> => {
     const { questions } = req.body
-    return this.surveyService.create({ questions })
+    return this.surveyService.create(questions)
   }
+
 
   update = (req: Request): Promise<SurveyEntity> => {
     const { id } = req.params
     const { questions } = req.body
-    return this.surveyService.update(id, { questions })
+    return this.surveyService.update(id, questions)
   }
 
   answer = async (req: Request): Promise<SurveyAnswerEntity> => {

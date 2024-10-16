@@ -17,5 +17,13 @@ export default {
     httpCode: 500,
     msg: 'Erro ao exportar dados para CSV'
   } as Error,
+  unAnswered: (id: string): Error => ({
+    httpCode: 400,
+    msg: `A pergunta de id ${id} não foi respondida`
+  }),
+  invalidResponseOption: (answer: string): Error => ({
+    httpCode: 400,
+    msg: `A resposta ${answer} não é válida para essa pergunta`
+  }),
 }
 

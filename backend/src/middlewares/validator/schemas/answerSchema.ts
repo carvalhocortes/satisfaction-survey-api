@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
 export default Yup.object({
-  questionId: Yup.number().required(),
+  questionId: Yup.string().required(),
   answer: Yup.string().required()
 });
