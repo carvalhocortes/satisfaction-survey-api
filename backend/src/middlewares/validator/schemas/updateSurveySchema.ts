@@ -3,9 +3,9 @@ import questionsSchema from './questionsSchema';
 
 export default Yup.object({
   params: Yup.object({
-    id: Yup.string().uuid().required(),
+    id: Yup.string().required(),
   }).required(),
   body: Yup.object({
     questions: Yup.array().of(questionsSchema.required()).optional(),
-  }).required(),
+  }).required()
 });

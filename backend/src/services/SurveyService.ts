@@ -60,11 +60,22 @@ export default class SurveyService {
 
   private async assembleUpdateQuestions(surveyId: string, updateQuestions: Questions[]): Promise<Questions[]> {
     const { questions: savedQuestions } = await this.surveyRepository.getSurvey(surveyId);
-    return updateQuestions.map(updateQuestion => {
-      const savedQuestion = savedQuestions.find(question => question._id === updateQuestion._id);
+    const updatedQuestions = updateQuestions.map((questionToUpdate) => {
+      const savedQuestion = savedQuestions.find(question => question._id === questionToUpdate._id);
       return savedQuestion ?
-        { ...savedQuestion, ...updateQuestion } :
-        { ...updateQuestion, _id: uuidv4() }
+        this.assembleUpdateQuestion(savedQuestion, questionToUpdate) :
+        { ...questionToUpdate, _id: uuidv4() }
     })
+    const dontUpdatedQuestions = savedQuestions.filter(savedQuestion => !updatedQuestions.some(question => question._id === savedQuestion._id));
+    return [...updatedQuestions, ...dontUpdatedQuestions];
+  }
+
+  private assembleUpdateQuestion(savedQuestion: Questions, updateQuestion: Questions): Questions {
+    return {
+      _id: savedQuestion._id,
+      question: updateQuestion.question || savedQuestion.question,
+      type: updateQuestion.type || savedQuestion.question,
+      answersOptions: updateQuestion.type !== EnumQuestionsType.openQuestion ? updateQuestion.answersOptions || savedQuestion.answersOptions : undefined
+    }
   }
 }
