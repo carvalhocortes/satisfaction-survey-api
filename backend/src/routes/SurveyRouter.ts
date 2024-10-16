@@ -21,11 +21,12 @@ const { validate: validateListAnswers } = new ValidationMiddleware(listAnswersSc
 
 const surveyRepository = new SurveyRepository();
 const surveyService = new SurveyService(surveyRepository);
-const { create, answer, listAnswers, update } = new SurveyController(surveyService);
+const { create, update, answer, listAnswers, exportListAnswers } = new SurveyController(surveyService);
 
 router.post('/', validateCreate, wrapperFn(create, 201));
 router.patch('/:id', validateUpdate, wrapperFn(update));
 router.post('/:id', validateAnswer, wrapperFn(answer, 201));
 router.get('/:audience', validateListAnswers, wrapperFn(listAnswers));
+router.get('/:audience/export', validateListAnswers, exportListAnswers);
 
 export default router;

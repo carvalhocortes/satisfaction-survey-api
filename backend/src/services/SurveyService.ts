@@ -1,3 +1,5 @@
+import { Parser } from 'json2csv';
+
 import ISurveyRepository from '../interfaces/ISurveyRepository';
 import EnumOrder from '../enums/EnumOrder';
 import SurveyEntity from '../entities/SurveyEntity';
@@ -29,5 +31,11 @@ export default class SurveyService {
     return this.surveyRepository.listAnswers(audience, sortStars)
   }
 
+  exportListAnswers = async (audience: string): Promise<string> => {
+    const answersByAudience = await this.surveyRepository.listAnswers(audience);
+    const fields = ['_id', 'surveyId', 'audience', 'rate', 'email', 'answers', 'createdAt'];
+    const json2csvParser = new Parser({ fields });
+    return json2csvParser.parse(answersByAudience);
+  }
 
 }

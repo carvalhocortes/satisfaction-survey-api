@@ -11,7 +11,11 @@ export default {
   }),
   invalidResponseLength: {
     httpCode: 400,
-    msg: `A quantidade de respostas deve ser igual a quantidade de perguntas`
+    msg: 'A quantidade de respostas deve ser igual a quantidade de perguntas'
+  } as Error,
+  exportFail: {
+    httpCode: 500,
+    msg: 'Erro ao exportar dados para CSV'
   } as Error,
 }
 
