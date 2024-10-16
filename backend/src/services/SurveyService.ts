@@ -10,7 +10,6 @@ import EnumQuestionsType from '../enums/EnumQuestionsType';
 
 export default class SurveyService {
   private surveyRepository: ISurveyRepository;
-
   constructor(surveyRepository: ISurveyRepository) {
     this.surveyRepository = surveyRepository;
   }
@@ -74,7 +73,7 @@ export default class SurveyService {
     return {
       _id: savedQuestion._id,
       question: updateQuestion.question || savedQuestion.question,
-      type: updateQuestion.type || savedQuestion.question,
+      type: updateQuestion.type || savedQuestion.type,
       answersOptions: updateQuestion.type !== EnumQuestionsType.openQuestion ? updateQuestion.answersOptions || savedQuestion.answersOptions : undefined
     }
   }

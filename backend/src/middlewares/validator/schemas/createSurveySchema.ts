@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import questionsSchema from './questionsSchema';
+import questionsSchema from './createQuestionsSchema';
 
 export default Yup.object({
   body: Yup.object({

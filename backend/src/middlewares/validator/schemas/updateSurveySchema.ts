@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import questionsSchema from './questionsSchema';
+import questionsSchema from './updateQuestionsSchema';
 
 export default Yup.object({
   params: Yup.object({
