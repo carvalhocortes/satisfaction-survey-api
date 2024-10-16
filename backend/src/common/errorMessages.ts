@@ -5,13 +5,13 @@ export default {
     httpCode: 400,
     msg: errorsMessages
   }),
-  alreadyExists: (field: string): Error => ({
-    httpCode: 400,
-    msg: `Este ${field} já está cadastrado`
-  }),
   notRegistered: (subject: string): Error => ({
     httpCode: 404,
     msg: `A ${subject} não existe`
-  })
+  }),
+  invalidResponseLength: {
+    httpCode: 400,
+    msg: `A quantidade de respostas deve ser igual a quantidade de perguntas`
+  } as Error,
 }
 

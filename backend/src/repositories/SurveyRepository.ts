@@ -10,18 +10,25 @@ import ISurveyRepository from '../interfaces/ISurveyRepository';
 import errorMessages from '../common/errorMessages';
 
 export default class SurveyRepository implements ISurveyRepository {
+
   constructor() {
   }
-  async create({ target, questions }: Partial<SurveyEntity>) {
-    const _id = uuidv4()
-    const newSurvey = new SurveyModel({ _id, target, questions });
-    const savedSurvey = await newSurvey.save();
-    return new SurveyEntity(savedSurvey.id, savedSurvey.target, savedSurvey.questions);
+
+  async getSurvey(_id: string): Promise<SurveyEntity> {
+    const survey = await SurveyModel.findById(_id);
+    if (!survey) throw errorMessages.notRegistered('Pesquisa');
+    return new SurveyEntity(survey._id, survey.questions);
   }
 
-  async update(_id: string, { target, questions }: Partial<SurveyEntity>): Promise<SurveyEntity> {
+  async createSurvey({ questions }: Partial<SurveyEntity>): Promise<SurveyEntity> {
+    const _id = uuidv4()
+    const newSurvey = new SurveyModel({ _id, questions });
+    const savedSurvey = await newSurvey.save();
+    return new SurveyEntity(savedSurvey._id, savedSurvey.questions);
+  }
+
+  async updateSurvey(_id: string, { questions }: Partial<SurveyEntity>): Promise<SurveyEntity> {
     const updateData: Partial<SurveyEntity> = {
-      ...(target && { target }),
       ...(questions && { questions })
     };
     const updatedSurvey = await SurveyModel.findByIdAndUpdate(
@@ -30,19 +37,19 @@ export default class SurveyRepository implements ISurveyRepository {
       { new: true }
     );
     if (!updatedSurvey) throw errorMessages.notRegistered('Pesquisa')
-    return new SurveyEntity(updatedSurvey.id, updatedSurvey.target, updatedSurvey.questions);
+    return new SurveyEntity(updatedSurvey._id, updatedSurvey.questions);
   }
 
   async answer(surveyId: string, surveyAnswer: SurveyAnswerEntity): Promise<SurveyAnswerEntity> {
     const _id = uuidv4()
-    const { email, rate, answers } = surveyAnswer;
-    const newSurveyAnswer = new SurveyAnswerModel({ _id, surveyId, email, rate, answers });
+    const { email, audience, rate, answers } = surveyAnswer;
+    const newSurveyAnswer = new SurveyAnswerModel({ _id, audience, surveyId, email, rate, answers });
     const savedSurveyAnswer = await newSurveyAnswer.save();
-    return new SurveyAnswerEntity(savedSurveyAnswer._id, savedSurveyAnswer.surveyId, savedSurveyAnswer.email, savedSurveyAnswer.rate, savedSurveyAnswer.answers);
+    return new SurveyAnswerEntity(savedSurveyAnswer._id, savedSurveyAnswer.surveyId, savedSurveyAnswer.audience, savedSurveyAnswer.email, savedSurveyAnswer.rate, savedSurveyAnswer.answers);
   }
 
-  listAnswers(surveyId: string, sortStars?: EnumOrder): Promise<SurveyAnswerEntity[]> {
-    const query = SurveyAnswerModel.find({ surveyId });
+  listAnswers(audience: string, sortStars?: EnumOrder): Promise<SurveyAnswerEntity[]> {
+    const query = SurveyAnswerModel.find({ audience });
     if (sortStars) query.sort({ rate: sortStars === EnumOrder.asc ? 1 : -1 });
     return query.exec();
   }

@@ -12,26 +12,26 @@ export default class UserController {
   }
 
   create = (req: Request): Promise<SurveyEntity> => {
-    const { target, questions } = req.body
-    return this.surveyService.create({ target, questions })
+    const { questions } = req.body
+    return this.surveyService.create({ questions })
   }
 
   update = (req: Request): Promise<SurveyEntity> => {
     const { id } = req.params
-    const { target, questions } = req.body
-    return this.surveyService.update(id, { target, questions })
+    const { questions } = req.body
+    return this.surveyService.update(id, { questions })
   }
 
   answer = async (req: Request): Promise<SurveyAnswerEntity> => {
     const { id } = req.params
-    const { email, rate, answers } = req.body as Partial<SurveyAnswerEntity>
-    return this.surveyService.answer(id, { email, rate, answers });
+    const { email, audience, rate, answers } = req.body as Partial<SurveyAnswerEntity>
+    return this.surveyService.answer(id, { email, audience, rate, answers });
   }
 
   listAnswers = (req: Request): Promise<SurveyAnswerEntity[]> => {
-    const { id } = req.params
+    const { audience } = req.params
     const sortStars = req.query?.sortStars as EnumOrder
-    return this.surveyService.listAnswers(id, sortStars)
+    return this.surveyService.listAnswers(audience, sortStars)
   }
 
 }

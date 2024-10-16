@@ -2,6 +2,7 @@ import ISurveyRepository from '../interfaces/ISurveyRepository';
 import EnumOrder from '../enums/EnumOrder';
 import SurveyEntity from '../entities/SurveyEntity';
 import SurveyAnswerEntity from '../entities/SurveyAnswerEntity';
+import errorMessages from '../common/errorMessages';
 
 export default class SurveyService {
   private surveyRepository: ISurveyRepository;
@@ -10,20 +11,22 @@ export default class SurveyService {
     this.surveyRepository = surveyRepository;
   }
 
-  create = ({ target, questions }: Partial<SurveyEntity>) => {
-    return this.surveyRepository.create({ target, questions })
+  create = ({ questions }: Partial<SurveyEntity>) => {
+    return this.surveyRepository.createSurvey({ questions })
   }
 
-  update = (id: string, { target, questions }: Partial<SurveyEntity>) => {
-    return this.surveyRepository.update(id, { target, questions })
+  update = (id: string, { questions }: Partial<SurveyEntity>) => {
+    return this.surveyRepository.updateSurvey(id, { questions })
   }
 
-  answer = async (id: string, { email, rate, answers }: Partial<SurveyAnswerEntity>) => {
-    return this.surveyRepository.answer(id, { email, rate, answers });
+  answer = async (id: string, { email, audience, rate, answers }: Partial<SurveyAnswerEntity>) => {
+    const survey = await this.surveyRepository.getSurvey(id);
+    if (answers && survey.questions.length !== answers.length) throw errorMessages.invalidResponseLength
+    return this.surveyRepository.answer(id, { email, audience, rate, answers });
   }
 
-  listAnswers = (id: string, sortStars?: EnumOrder) => {
-    return this.surveyRepository.listAnswers(id, sortStars)
+  listAnswers = (audience: string, sortStars?: EnumOrder) => {
+    return this.surveyRepository.listAnswers(audience, sortStars)
   }
 
 

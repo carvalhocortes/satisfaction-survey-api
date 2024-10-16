@@ -1,9 +1,9 @@
 import * as express from 'express';
 
-import createSurveySchema from '../schemas/createSurveySchema';
-import updateSurveySchema from '../schemas/updateSurveySchema';
-import answerSurveySchema from '../schemas/answerSurveySchema';
-import listAnswersSchema from '../schemas/listAnswersSchema';
+import createSurveySchema from '../middlewares/validator/schemas/createSurveySchema';
+import updateSurveySchema from '../middlewares/validator/schemas/updateSurveySchema';
+import answerSurveySchema from '../middlewares/validator/schemas/answerSurveySchema';
+import listAnswersSchema from '../middlewares/validator/schemas/listAnswersSchema';
 
 import SurveyRepository from '../repositories/SurveyRepository';
 import SurveyService from '../services/SurveyService';
@@ -24,8 +24,8 @@ const surveyService = new SurveyService(surveyRepository);
 const { create, answer, listAnswers, update } = new SurveyController(surveyService);
 
 router.post('/', validateCreate, wrapperFn(create, 201));
-router.post('/:id/answer', validateAnswer, wrapperFn(answer, 200));
-router.get('/:id/answer', validateListAnswers, wrapperFn(listAnswers));
 router.patch('/:id', validateUpdate, wrapperFn(update));
+router.post('/:id', validateAnswer, wrapperFn(answer, 201));
+router.get('/:audience', validateListAnswers, wrapperFn(listAnswers));
 
 export default router;
