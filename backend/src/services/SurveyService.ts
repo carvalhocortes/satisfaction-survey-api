@@ -21,7 +21,7 @@ export default class SurveyService {
   }
 
   update = async (surveyId: string, newQuestions: Questions[]) => {
-    const assembledQuestions = await this.assembleQuestionsIfNeeded(surveyId, newQuestions);
+    const assembledQuestions = await this.assembleUpdateQuestions(surveyId, newQuestions);
     return this.surveyRepository.updateSurvey(surveyId, assembledQuestions)
   }
 
@@ -58,7 +58,7 @@ export default class SurveyService {
     }));
   }
 
-  private async assembleQuestionsIfNeeded(surveyId: string, updateQuestions: Questions[]): Promise<Questions[]> {
+  private async assembleUpdateQuestions(surveyId: string, updateQuestions: Questions[]): Promise<Questions[]> {
     const { questions: savedQuestions } = await this.surveyRepository.getSurvey(surveyId);
     return updateQuestions.map(updateQuestion => {
       const savedQuestion = savedQuestions.find(question => question._id === updateQuestion._id);
