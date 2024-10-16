@@ -39,7 +39,7 @@ docker-compose up --build
 O servidor será iniciado em `http:/localhost:5000`.
 
 3. **Acessar a API:**
-   Baixe aqui a coleção do postman para testar.
+   Baixe [aqui](https://drive.google.com/file/d/1yh6bTZQlxzZ4LSdz7XXRPlzv2mnG82G8/view?usp=sharing) a coleção do postman para testar.
 
 ## Melhorias Futuras:
 
