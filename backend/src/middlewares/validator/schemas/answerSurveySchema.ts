@@ -8,6 +8,7 @@ export default Yup.object({
   }).required(),
   body: Yup.object({
     email: Yup.string().email().required(),
+    audience: Yup.string().required(),
     rate: Yup.number().min(1).max(5).required(),
     answers: Yup.array().of(answerSchema).optional(),
   }).required(),
