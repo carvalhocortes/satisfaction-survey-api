@@ -1,8 +1,8 @@
-## Satisfaction Survey
+# Satisfaction Survey API
 
-**Satisfaction Survey** é uma API que permite a criar pesquisas de satisfação customizadas.
+Bem-vindo ao **Satisfaction Survey API**, uma API destinada à gestão de pesquisas, permitindo criar, atualizar, listar e responder pesquisas.
 
-### Descrição:
+## Descrição:
 
 Esta API faz o gerenciamento de pesquisas de satisfação do cliente para um varejista online que está experimentando um crescimento rápido e diversificação de sua base de clientes. A variedade crescente de clientes exige pesquisas personalizadas para grupos demográficos específicos (Geeks e Nerds, Minimalistas, Atletas, etc.). A API aborda isso permitindo:
 
@@ -19,31 +19,35 @@ Esta API faz o gerenciamento de pesquisas de satisfação do cliente para um var
 - **Gerenciamento de Containers:** Docker
 - **Testes:** mocharc
 
-### Instalação:
+## Instalação
 
-1. **Clonar o Repositório:**
+Para instalar a API localmente, siga os passos abaixo:
+
+1. Clone o repositório:
 
 ```bash
 git clone git@github.com:carvalhocortes/satisfaction-survey-api.git
 ```
 
-2. **Criar as Imagens e Executar os Containers :**
+2. Entre na pasta e monte o servidor:
 
 ```bash
 cd satisfaction-survey-api
 docker-compose up --build
 ```
 
-3. **Acessar a Aplicação:**
-   Baixe a coleção do postman para testar a API
+O servidor será iniciado em `http:/localhost:5000`.
 
-### Melhorias Futuras:
+3. **Acessar a API:**
+   Baixe aqui a coleção do postman para testar.
+
+## Melhorias Futuras:
 
 - Implementar rotas de visualização.
-- Implementar um autenticação.
+- Implementar autenticação das rotas
 - Criar um sistema de análise de dados para monitorar o desempenho das pesquisas.
 
-### Contribuições:
+## Contribuições:
 
 Contribuições para o desenvolvimento da plataforma Super Cursos são bem-vindas! Para colaborar, siga os seguintes passos:
 
@@ -52,6 +56,8 @@ Contribuições para o desenvolvimento da plataforma Super Cursos são bem-vinda
 3. Faça suas alterações e commit.
 4. Envie um pull request para o branch principal do repositório.
 
-### Licença:
+## Licença:
 
 A API Satisfaction Survey está licenciada sob a licença MIT.
+
+Para mais detalhes sobre os esquemas e exemplos, consulte a documentação OpenAPI.

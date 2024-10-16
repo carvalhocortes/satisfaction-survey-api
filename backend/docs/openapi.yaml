@@ -23,11 +23,7 @@ paths:
               $ref: '#/components/schemas/NewSurvey'
             examples:
               Success:
-                value:
-                  target: "Clientes"
-                  questions:
-                    - "Qual é o seu nível de satisfação?"
-                    - "Recomendaria nossos serviços?"
+                $ref: '#/components/examples/ExampleCreateSurvey'
       responses:
         '201':
           description: Pesquisa criada com sucesso
@@ -37,12 +33,7 @@ paths:
                 $ref: '#/components/schemas/Survey'
               examples:
                 Success:
-                  value:
-                    id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
-                    target: "Clientes"
-                    questions:
-                      - "Qual é o seu nível de satisfação?"
-                      - "Recomendaria nossos serviços?"
+                  $ref: '#/components/examples/ExampleResponseCreateSurvey'
         '400':
           description: Erro de solicitação inválida
           content:
@@ -51,53 +42,44 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 erroExemplo:
-                  value:
-                    httpCode: "400"
-                    msg: [ "body.target is a required field" ]
+                  $ref: '#/components/examples/ExampleError400'
 
-  /survey/{survey_id}/answer:
-    get:
-      summary: Lista todas as respostas da pesquisa
+  /surveys/{survey_id}:
+    patch:
+      summary: Atualiza a pesquisa de um curso
       tags:
         - Pesquisas
       parameters:
-        - in: query
-          name: sortStars
-          required: false
-          schema:
-            type: string
-            enum: [asc, desc]
-          description: Ordenação dos resultados, 'asc' para ascendente e 'desc' para descendente
         - in: path
           name: survey_id
           required: true
           schema:
             type: string
           description: ID da Pesquisa
+      requestBody:
+        description: Dados atualizados da pesquisa
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewSurvey'
+            examples:
+              Success:
+                $ref: '#/components/examples/ExampleUpdateSurvey'
+
       responses:
         '200':
-          description: Lista de respostas da pesquisa
+          description: Pesquisa atualizada com sucesso
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SurveyAnswer'
+                $ref: '#/components/schemas/Survey'
               examples:
                 Success:
                   value:
-                    - id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
-                      email: "exemplo1@dominio.com"
-                      rate: 4.5
-                      answers:
-                        - question: "Qual é o seu nível de satisfação?"
-                          answer: "Muito satisfeito"
-                    - id: "4bfceef9-9e43-4d67-9b7b-6f53e7f18508"
-                      email: "exemplo2@dominio.com"
-                      rate: 4.0
-                      answers:
-                        - question: "Qual é o seu nível de satisfação?"
-                          answer: "Satisfeito"
+                    id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
+                    questions:
+                      - $ref: '#/components/examples/ExampleCreateSurvey/value/questions'
         '404':
           description: Pesquisa não encontrada
           content:
@@ -106,9 +88,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 erroExemplo:
-                  value:
-                    httpCode: "404"
-                    msg: "A Pesquisa não existe"
+                  $ref: '#/components/examples/ExampleError404'
 
     post:
       summary: Responde a pesquisa
@@ -130,12 +110,7 @@ paths:
               $ref: '#/components/schemas/SurveyAnswer'
             examples:
               Success:
-                value:
-                  email: "respondente@dominio.com"
-                  rate: 5
-                  answers:
-                    - question: "Qual é o seu nível de satisfação?"
-                      answer: "Muito satisfeito"
+                $ref: '#/components/examples/ExampleSurveyAnswer'
       responses:
         '200':
           description: Pesquisa respondida com sucesso
@@ -145,13 +120,7 @@ paths:
                 $ref: '#/components/schemas/SurveyAnswer'
               examples:
                 Success:
-                  value:
-                    id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
-                    email: "respondente@dominio.com"
-                    rate: 5
-                    answers:
-                      - question: "Qual é o seu nível de satisfação?"
-                        answer: "Muito satisfeito"
+                  $ref: '#/components/examples/ExampleSurveyAnswerWhitId'
         '404':
           description: Pesquisa não encontrada
           content:
@@ -160,49 +129,39 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 erroExemplo:
-                  value:
-                    httpCode: "404"
-                    msg: "Pesquisa não encontrada."
+                  $ref: '#/components/examples/ExampleError404'
 
-  /survey/{survey_id}:
-    patch:
-      summary: Atualiza a pesquisa de um curso
+  /surveys/{audience}:
+    get:
+      summary: Lista todas as respostas da pesquisa
       tags:
         - Pesquisas
       parameters:
+        - in: query
+          name: sortStars
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+          description: Ordenação dos resultados, 'asc' para ascendente e 'desc' para descendente
         - in: path
-          name: survey_id
+          name: audience
           required: true
           schema:
             type: string
           description: ID da Pesquisa
-      requestBody:
-        description: Dados atualizados da pesquisa
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NewSurvey'
-            examples:
-              Success:
-                value:
-                  target: "Funcionários"
-                  questions:
-                    - "Como você avalia o ambiente de trabalho?"
       responses:
         '200':
-          description: Pesquisa atualizada com sucesso
+          description: Lista de respostas da pesquisa
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Survey'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SurveyAnswer'
               examples:
                 Success:
-                  value:
-                    id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
-                    target: "Funcionários"
-                    questions:
-                      - "Como você avalia o ambiente de trabalho?"
+                  $ref: '#/components/examples/ExampleSurveyAnswerWhitIdArray'
         '404':
           description: Pesquisa não encontrada
           content:
@@ -211,9 +170,44 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 erroExemplo:
-                  value:
-                    httpCode: "404"
-                    msg: "Pesquisa não encontrada."
+                  $ref: '#/components/examples/ExampleError404'
+
+  /surveys/{audience}/export:
+    get:
+      summary: Exporta uma lista com todas as respostas da pesquisa em CSV
+      tags:
+        - Pesquisas
+      parameters:
+        - in: path
+          name: audience
+          required: true
+          schema:
+            type: string
+          description: ID da Pesquisa
+      responses:
+        '200':
+          description: Arquivo CSV com a lista de respostas da pesquisa
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+              examples:
+                Success:
+                  summary: Exemplo de CSV
+                  value: |
+                    id,audience,email,rate,question,answer
+                    e6690315-f4a0-41ce-bdd6-fd90d6596bf4,GEEK,exemplo1@dominio.com,5,Qual é o seu nível de satisfação?,Muito satisfeito
+                    4bfceef9-9e43-4d67-9b7b-6f53e7f18508,GEEK,exemplo2@dominio.com,4,Qual é o seu nível de satisfação?,Satisfeito
+        '404':
+          description: Pesquisa não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                erroExemplo:
+                  $ref: '#/components/examples/ExampleError404'
 
 components:
   schemas:
@@ -222,32 +216,65 @@ components:
       properties:
         id:
           type: string
-        target:
-          type: string
+          format: uuid
         questions:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/Question'
 
     NewSurvey:
       type: object
       properties:
-        target:
-          type: string
         questions:
           type: array
           items:
+            $ref: '#/components/schemas/Question'
+      required:
+        - questions
+
+    Question:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID da pergunta (opcional em criação)
+        question:
+          type: string
+          description: Texto da pergunta
+          example: "Como você avalia o ambiente de trabalho?"
+        type:
+          $ref: '#/components/schemas/EnumQuestionsType'
+        answersOptions:
+          type: array
+          items:
             type: string
+          description: "Opções de resposta (obrigatório se o tipo for 'chooseOne' ou 'chooseMany')"
+          example: ["Muito satisfeito", "Satisfeito", "Insatisfeito"]
+
+    EnumQuestionsType:
+      type: string
+      enum:
+        - openQuestion
+        - chooseOne
+        - chooseMany
+      description: Tipo da pergunta
 
     SurveyAnswer:
       type: object
       properties:
         id:
           type: string
+          format: uuid
+        audience:
+          type: string
         email:
           type: string
+          format: email
         rate:
           type: number
+          minimum: 0
+          maximum: 5
         answers:
           type: array
           items:
@@ -256,10 +283,12 @@ components:
     Answer:
       type: object
       properties:
-        question:
+        questionId:
           type: string
+          description: ID da pergunta
         answer:
           type: string
+          description: Resposta da pergunta (deve respeitar as opções de resposta criadas na pergunta)
 
     Error:
       type: object
@@ -272,3 +301,89 @@ components:
             - type: array
               items:
                 type: string
+
+  examples:
+    ExampleCreateSurvey:
+      summary: Exemplo de perguntas
+      value:
+        questions:
+          - question: "Qual é o seu nível de satisfação?"
+            type: "chooseOne"
+            answersOptions: ["Muito satisfeito", "Satisfeito", "Insatisfeito"]
+
+    ExampleUpdateSurvey:
+      summary: Exemplo de perguntas
+      value:
+        questions:
+          - id: 4bfceef9-9e43-4d67-9b7b-6f53e7f18508
+            question: "Qual é o seu nível de satisfação?"
+            type: "chooseOne"
+            answersOptions: ["Muito satisfeito", "Satisfeito", "Insatisfeito"]
+
+    ExampleResponseCreateSurvey:
+      summary: Exemplo de perguntas
+      value:
+        _id: 4bfceef9-9e43-4d67-9b7b-6f53e7f18508
+        questions:
+          - question: "Qual é o seu nível de satisfação?"
+            type: "chooseOne"
+            answersOptions: ["Muito satisfeito", "Satisfeito", "Insatisfeito"]
+
+    ExampleSurveyAnswer:
+      summary: Exemplo de resposta de pesquisa
+      value:
+        email: "respondente@dominio.com"
+        rate: 5
+        audience: Geek
+        answers:
+          id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
+          questions:
+            - questionId: 4bfceef9-9e43-4d67-9b7b-6f53e7f18508
+              answersOptions: Muito satisfeito
+
+    ExampleSurveyAnswerWhitId:
+      summary: Exemplo de resposta de pesquisa
+      value:
+        _id: 4bfceef9-9e43-4d67-9b7b-6f53e7f18508
+        email: "respondente@dominio.com"
+        rate: 5
+        audience: Geek
+        answers:
+          id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
+          questions:
+            - questionId: 4bfceef9-9e43-4d67-9b7b-6f53e7f18508
+              answersOptions: Muito satisfeito
+
+    ExampleSurveyAnswerWhitIdArray:
+      summary: Exemplo de uma lista de respostas de pesquisa
+      value:
+        - id: "e6690315-f4a0-41ce-bdd6-fd90d6596bf4"
+          email: "exemplo1@dominio.com"
+          rate: 4.5
+          answers:
+            - question: "Qual é o seu nível de satisfação?"
+              answer: "Muito satisfeito"
+        - id: "4bfceef9-9e43-4d67-9b7b-6f53e7f18508"
+          email: "exemplo2@dominio.com"
+          rate: 4.0
+          answers:
+            - question: "Qual é o seu nível de satisfação?"
+              answer: "Satisfeito"
+
+    ExampleError400:
+      summary: Exemplo de erro 400 por validação
+      value:
+        httpCode: 400
+        msg: ["body.questions[0].question is a required field"]
+
+    ExampleError404:
+      summary: Exemplo de erro 404 por validação
+      value:
+        httpCode: 404
+        msg: A pesquisa não existe
+
+    ExampleError500:
+      summary: Exemplo de erro 500 por validação
+      value:
+        httpCode: 500
+        msg: Internal server error!
