@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import { Database } from '../src/config/db/dbConnect';
 
 dotenv.config();
-const dbConnString = String(process.env.DB_CONNECTION_STRING);
+const dbConnString = 'mongodb://rootUser:rootPassword@localhost:27017/surveyDB?authSource=admin';
 
 describe('Satisfaction Survey Testes', () => {
   before(function () {

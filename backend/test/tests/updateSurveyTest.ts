@@ -15,7 +15,7 @@ describe('Update Survey Testes', () => {
       .send({ questions: [assembleQuestion('updated oi ?'), assembleQuestion('nova pergunta ?')] })
       .expect(200)
     should(body).have.property('_id').and.be.String()
-    should(body).have.property('questions').and.be.Array().and.have.length(2)
+    should(body).have.property('questions').and.be.Array().and.have.length(3)
     should(body.questions[0].question).be.equal('updated oi ?')
     should(body.questions[1].question).be.equal('nova pergunta ?')
   })
