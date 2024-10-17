@@ -49,7 +49,7 @@ O servidor será iniciado em `http:/localhost:5000`.
 
 ## Contribuições:
 
-Contribuições para o desenvolvimento da plataforma Super Cursos são bem-vindas! Para colaborar, siga os seguintes passos:
+Contribuições para o desenvolvimento da API são bem-vindas! Para colaborar, siga os seguintes passos:
 
 1. Faça um fork do repositório.
 2. Crie um nova branch para suas mudanças.
