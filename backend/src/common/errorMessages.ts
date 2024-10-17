@@ -1,4 +1,4 @@
-import { Error } from '../types/commonTypes'
+import { Error } from '../interfaces/commonTypes'
 
 export default {
   validationError: (errorsMessages: string[]): Error => ({
