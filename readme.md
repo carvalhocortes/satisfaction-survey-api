@@ -60,4 +60,4 @@ Contribuições para o desenvolvimento da API são bem-vindas! Para colaborar, s
 
 A API Satisfaction Survey está licenciada sob a licença MIT.
 
-Para mais detalhes sobre os esquemas e exemplos, consulte a documentação OpenAPI.
+Para mais detalhes sobre os esquemas e exemplos, consulte a [documentação OpenAPI](https://carvalhocortes.github.io/satisfaction-survey-api/backend/docs/docs.html).
