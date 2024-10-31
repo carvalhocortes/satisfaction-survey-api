@@ -12,6 +12,7 @@ describe('Satisfaction Survey Testes', () => {
   after(async function () {
     Database.disconnect();
   })
+  require('./tests/notificationTest')
   require('./tests/createSurveyTest');
   require('./tests/updateSurveyTest');
   require('./tests/answerSurveyTest');

@@ -2,16 +2,21 @@ import { v4 as uuidv4 } from 'uuid';
 import { Parser } from 'json2csv';
 
 import ISurveyRepository from '../interfaces/ISurveyRepository';
+import INotificationService from '../interfaces/INotificationService'
 import EnumOrder from '../enums/EnumOrder';
 import { Questions } from '../entities/SurveyEntity';
 import SurveyAnswerEntity, { Answer } from '../entities/SurveyAnswerEntity';
 import errorMessages from '../common/errorMessages';
 import EnumQuestionsType from '../enums/EnumQuestionsType';
+import NotificationService from './notificationEmail';
 
 export default class SurveyService {
   private surveyRepository: ISurveyRepository;
+  private notification: INotificationService
+
   constructor(surveyRepository: ISurveyRepository) {
     this.surveyRepository = surveyRepository;
+    this.notification = new NotificationService();
   }
 
   create = (questions: Questions[]) => {
@@ -26,7 +31,9 @@ export default class SurveyService {
 
   answer = async (surveyId: string, { email, audience, rate, answers }: Partial<SurveyAnswerEntity>) => {
     await this.validateAnswers(surveyId, answers);
-    return this.surveyRepository.answer(surveyId, { email, audience, rate, answers });
+    const answer = await this.surveyRepository.answer(surveyId, { email, audience, rate, answers });
+    await this.notification.sendObrigadoEmail(answer.email)
+    return answer;
   }
 
   listAnswers = (audience: string, sortStars?: EnumOrder) => {
